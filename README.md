@@ -1,6 +1,5 @@
 ## Summary
 
-
 This repository is introduction of some patterns OAS schema managements.
 
 1. Separated open api files (This advantage is each files can be edited by stoplight studio all features even if multiple files. They are concatnated after edited by swagger-cli  can convert ref with escaped path. [~1 is slash alias in OAS](https://swagger.io/docs/specification/using-ref/) )
@@ -42,7 +41,14 @@ components:
 4. Add api module to app.module.ts's imports
 5. run `npx nest start`
 
-### nestjs
+### openapi-types
+
+1. export typed object file with openapi-types type.
+2. dump yaml
+
+#### exmple
+
+Run `pnpm run gen:openapi-types`.
 
 ## Mock Service
 

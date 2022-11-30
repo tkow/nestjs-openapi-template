@@ -1,0 +1,37 @@
+openapi: 3.0.3
+info:
+  version: v1
+  title: User
+  description: User Api
+paths:
+  /api/users/{id}:
+    get:
+      tags:
+        - user
+      description: |
+        Get User By Id
+      operationId: fetchUser
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: success
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - user
+                properties:
+                  user:
+                    $ref: "../../../components/schemas/user/user.yml"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "../../../components/schemas/error_object.yml"

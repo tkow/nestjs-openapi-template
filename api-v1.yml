@@ -1,0 +1,220 @@
+openapi: 3.0.3
+info:
+  version: 1.0.0
+  title: Example API
+  description: OpenAPI 3.0 specification
+  termsOfService: 'http://swagger.io/terms/'
+  contact:
+    name: Swagger API Team
+    email: apiteam@swagger.io
+    url: 'http://swagger.io'
+  license:
+    name: Apache 2.0
+    url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
+tags:
+  - name: user
+    description: User Info
+  - name: post
+    description: User Post
+servers:
+  - url: 'http://localhost:3001'
+paths:
+  /api/users:
+    get:
+      tags:
+        - user
+      description: |
+        User List
+      operationId: fetchUsers
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+        - in: query
+          name: id
+          schema:
+            oneOf:
+              - type: string
+              - type: array
+                items:
+                  type: string
+        - in: query
+          name: Example_id
+          schema:
+            oneOf:
+              - type: string
+              - type: array
+                items:
+                  type: string
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - users
+                  - pagination
+                properties:
+                  users:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/User'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  '/api/users/{id}':
+    get:
+      tags:
+        - user
+      description: |
+        Get User By Id
+      operationId: fetchUser
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - user
+                properties:
+                  user:
+                    $ref: '#/components/schemas/User'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/posts:
+    get:
+      tags:
+        - post
+      description: |
+        Post List
+      operationId: fetchPosts
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+        - in: query
+          name: id
+          schema:
+            oneOf:
+              - type: string
+              - type: array
+                items:
+                  type: string
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - posts
+                properties:
+                  posts:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Post'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  '/api/posts/{id}':
+    get:
+      tags:
+        - post
+      description: |
+        Get Post By Id
+      operationId: fetchPost
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - post
+                properties:
+                  post:
+                    $ref: '#/components/schemas/Post'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    Post:
+      type: object
+      required:
+        - id
+        - user_id
+        - name
+        - text
+      properties:
+        id:
+          type: integer
+        user_id:
+          type: integer
+        name:
+          type: string
+        text:
+          type: string
+    User:
+      type: object
+      required:
+        - id
+        - name
+        - introduction
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        introduction:
+          type: string
+    Error:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+security:
+  - bearerAuth: []

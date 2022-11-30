@@ -1,0 +1,37 @@
+openapi: 3.0.3
+info:
+  version: v1
+  title: Post
+  description: Post Api
+paths:
+  /api/posts/{id}:
+    get:
+      tags:
+        - post
+      description: |
+        Get Post By Id
+      operationId: fetchPost
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: success
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - post
+                properties:
+                  post:
+                    $ref: "../../../components/schemas/post.yml"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "../../../components/schemas/error_object.yml"

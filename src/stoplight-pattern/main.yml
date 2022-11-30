@@ -1,0 +1,45 @@
+openapi: 3.0.3
+info:
+  version: 1.0.0
+  title: Example API
+  description: OpenAPI 3.0 specification
+  termsOfService: http://swagger.io/terms/
+  contact:
+    name: Swagger API Team
+    email: apiteam@swagger.io
+    url: http://swagger.io
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+tags:
+  - name: user
+    description: User Info
+  - name: post
+    description: User Post
+servers:
+  - url: http://localhost:3001
+paths:
+  /api/users:
+    $ref: "./paths/api/users/index.yml#/paths/~1api~1users"
+  /api/users/{id}:
+    $ref: "./paths/api/users/{id}.yml#/paths/~1api~1users~1{id}"
+  /api/posts:
+    $ref: "./paths/api/posts/index.yml#/paths/~1api~1posts"
+  /api/posts/{id}:
+    $ref: "./paths/api/posts/{id}.yml#/paths/~1api~1posts~1{id}"
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    Post:
+      $ref: "./components/schemas/post.yml"
+    User:
+      $ref: "./components/schemas/user/user.yml"
+    Error:
+      $ref: "./components/schemas/error_object.yml"
+security:
+  - bearerAuth: []

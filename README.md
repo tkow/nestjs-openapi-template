@@ -1,31 +1,51 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+## Summary
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+This repository is introduction of some patterns OAS schema managements.
+
+1. Separated open api files (This advantage is each files can be edited by stoplight studio all features even if multiple files. They are concatnated after edited by swagger-cli  can convert ref with escaped path. [~1 is slash alias in OAS](https://swagger.io/docs/specification/using-ref/) )
+
+2. @nestjs/swagger only oas builder usage. Nestjs with @nestjs/swagger can generate open api specifications with schema validation by Typescript. This can be also used even if not concrete logic controller, so you can use openapi schema generator.
+
+3. openapi-types
+
+Build Open Api object by typescript and emit a file as yaml format.
 
 ## Specification create rule
 
-1. `npx nest g module xxxx`
-2. `npx nest g co api-example/action-name --flat && npx nest g cl api-example/dto/action-name --flat`
-3. annotate dto class and controller with @nestjs/swagger decorators
-4. run `npx nest start`
+### swagger-cli
 
+1. Add endpoint path and path's file path to swagger main file in paths section. It needs escaping after `#paths/` string.
+ex)
+```yaml
+paths:
+  /api/users:
+    $ref: "./paths/api/users/index.yml#/paths/~1api~1users"
+```
+
+2. (Optional) Add components name and the file path to swagger main file in paths section.
+ex)
+```yaml
+components:
+  schemas:
+    User:
+      $ref: "./components/schemas/user/user.yml"
+```
+
+2. Run `./bin/create-swagger-yaml.sh`. See create-swagger-yaml.sh if you want more detail.
+
+### nestjs
+
+1. `npx nest g module xxxx`
+2. `npx nest g co api-example/action-name --flat --no-spec  && npx nest g cl api-example/dto/action-name --flat --no-spec `
+3. Annotate dto class and controller with @nestjs/swagger decorators
+4. Add api module to app.module.ts's imports
+5. run `npx nest start`
+
+### nestjs
+
+## Mock Service
+
+```shell
+npx prism mock ${api yaml file path}
+```

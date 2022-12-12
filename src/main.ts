@@ -24,7 +24,7 @@ async function bootstrap() {
   );
 
   if (process.argv[2] !== '--generate-only') {
-    await app.listen(3000);
+    await app.listen(process.env.PORT || 3333);
   }
 }
 

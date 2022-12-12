@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  Param,
   Post,
   Put,
   Query,
@@ -41,17 +42,29 @@ export class UserController {
   @Post()
   @ApiBody({ type: CreateUserDto })
   async createUser(@Body() userDto: CreateUserDto) {
-    return;
+    return this.userService.create({
+      data: userDto,
+    });
   }
 
-  @Put('/{id}')
+  @Put('/:id')
   @ApiBody({ type: UpdateUserDto })
-  async updateUser(@Body() userDto: UpdateUserDto) {
-    return;
+  async updateUser(@Param('id') id: number, @Body() userDto: UpdateUserDto) {
+    // NOTE: numberは本来BigIntにparseできるようにstringで持たせる必要がある
+    return this.userService.update({
+      data: userDto,
+      where: {
+        id,
+      },
+    });
   }
 
-  @Delete('/{id}')
-  async deleteUser(@Body() id: string) {
-    return;
+  @Delete('/:id')
+  async deleteUser(@Param('id') id: number) {
+    return this.userService.delete({
+      where: {
+        id,
+      },
+    });
   }
 }

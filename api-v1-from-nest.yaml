@@ -9,9 +9,25 @@ paths:
           in: query
           schema:
             type: number
+        - name: size
+          required: true
+          in: query
+          schema:
+            type: number
+        - name: name
+          required: true
+          in: query
+          schema:
+            type: string
       responses:
         '200':
           description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
         default:
           description: user list
           content:
@@ -34,11 +50,20 @@ paths:
       responses:
         '201':
           description: ''
+          content:
+            application/json:
+              schema:
+                type: object
       security: *ref_0
   /users/{id}:
     put:
       operationId: UserController_updateUser
-      parameters: []
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: number
       requestBody:
         required: true
         content:
@@ -48,19 +73,26 @@ paths:
       responses:
         '200':
           description: ''
+          content:
+            application/json:
+              schema:
+                type: object
       security: *ref_0
     delete:
       operationId: UserController_deleteUser
-      parameters: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: string
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: number
       responses:
         '200':
           description: ''
+          content:
+            application/json:
+              schema:
+                type: object
       security: *ref_0
 info:
   title: Api Example

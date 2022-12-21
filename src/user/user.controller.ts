@@ -41,11 +41,13 @@ export class UserController {
     @Query('size') size = 20,
   ) {
     const data = await this.userService.findMany({
-      where: {
-        name,
-      },
+      where: name
+        ? {
+            name,
+          }
+        : {},
       take: size,
-      skip: page * size,
+      skip: (page - 1) * size,
     });
     return data.map((user) => ({
       id: Number(user.id),

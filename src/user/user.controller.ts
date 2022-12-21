@@ -5,6 +5,7 @@ import {
   Get,
   HttpCode,
   Param,
+  ParseIntPipe,
   Post,
   Put,
   Query,
@@ -63,7 +64,7 @@ export class UserController {
     type: UserEntity,
     description: 'user detail',
   })
-  async fetchUser(@Param('id') id: number) {
+  async fetchUser(@Param('id', ParseIntPipe) id: number) {
     const user = await this.userService.find({
       where: {
         id,

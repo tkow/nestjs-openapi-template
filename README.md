@@ -2,7 +2,7 @@
 
 This repository is introduction of some patterns OAS schema managements.
 
-1. Separated open api files (This advantage is each files can be edited by stoplight studio all features even if multiple files. They are concatnated after edited by swagger-cli  can convert ref with escaped path. [~1 is slash alias in OAS](https://swagger.io/docs/specification/using-ref/) )
+1. Separated open api files (This advantage is each files can be edited by stoplight studio all features even if multiple files. They are concatnated after edited by swagger-cli can convert ref with escaped path. [~1 is slash alias in OAS](https://swagger.io/docs/specification/using-ref/) )
 
 2. @nestjs/swagger only oas builder usage. Nestjs with @nestjs/swagger can generate open api specifications with schema validation by Typescript. This can be also used even if not concrete logic controller, so you can use openapi schema generator.
 
@@ -15,20 +15,22 @@ Build Open Api object by typescript and emit a file as yaml format.
 ### swagger-cli
 
 1. Add endpoint path and path's file path to swagger main file in paths section. It needs escaping after `#paths/` string.
-ex)
+   ex)
+
 ```yaml
 paths:
   /api/users:
-    $ref: "./paths/api/users/index.yml#/paths/~1api~1users"
+    $ref: './paths/api/users/index.yml#/paths/~1api~1users'
 ```
 
 2. (Optional) Add components name and the file path to swagger main file in paths section.
-ex)
+   ex)
+
 ```yaml
 components:
   schemas:
     User:
-      $ref: "./components/schemas/user/user.yml"
+      $ref: './components/schemas/user/user.yml'
 ```
 
 2. Run `./bin/create-swagger-yaml.sh`. See create-swagger-yaml.sh if you want more detail.

@@ -25,7 +25,7 @@ paths:
                 items:
                   type: string
       responses:
-        "200":
+        '200':
           description: success
           content:
             application/json:
@@ -37,10 +37,10 @@ paths:
                   posts:
                     type: array
                     items:
-                      $ref: "../../../components/schemas/post.yml"
+                      $ref: '../../../components/schemas/post.yml'
         default:
           description: unexpected error
           content:
             application/json:
               schema:
-                $ref: "../../../components/schemas/error_object.yml"
+                $ref: '../../../components/schemas/error_object.yml'

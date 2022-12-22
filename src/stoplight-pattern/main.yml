@@ -20,13 +20,13 @@ servers:
   - url: http://localhost:3001
 paths:
   /api/users:
-    $ref: "./paths/api/users/index.yml#/paths/~1api~1users"
+    $ref: './paths/api/users/index.yml#/paths/~1api~1users'
   /api/users/{id}:
-    $ref: "./paths/api/users/{id}.yml#/paths/~1api~1users~1{id}"
+    $ref: './paths/api/users/{id}.yml#/paths/~1api~1users~1{id}'
   /api/posts:
-    $ref: "./paths/api/posts/index.yml#/paths/~1api~1posts"
+    $ref: './paths/api/posts/index.yml#/paths/~1api~1posts'
   /api/posts/{id}:
-    $ref: "./paths/api/posts/{id}.yml#/paths/~1api~1posts~1{id}"
+    $ref: './paths/api/posts/{id}.yml#/paths/~1api~1posts~1{id}'
 
 components:
   securitySchemes:
@@ -36,10 +36,10 @@ components:
       bearerFormat: JWT
   schemas:
     Post:
-      $ref: "./components/schemas/post.yml"
+      $ref: './components/schemas/post.yml'
     User:
-      $ref: "./components/schemas/user/user.yml"
+      $ref: './components/schemas/user/user.yml'
     Error:
-      $ref: "./components/schemas/error_object.yml"
+      $ref: './components/schemas/error_object.yml'
 security:
   - bearerAuth: []

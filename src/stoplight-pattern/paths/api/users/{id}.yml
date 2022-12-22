@@ -18,7 +18,7 @@ paths:
           schema:
             type: string
       responses:
-        "200":
+        '200':
           description: success
           content:
             application/json:
@@ -28,10 +28,10 @@ paths:
                   - user
                 properties:
                   user:
-                    $ref: "../../../components/schemas/user/user.yml"
+                    $ref: '../../../components/schemas/user/user.yml'
         default:
           description: unexpected error
           content:
             application/json:
               schema:
-                $ref: "../../../components/schemas/error_object.yml"
+                $ref: '../../../components/schemas/error_object.yml'

@@ -14,8 +14,9 @@ import {
   ApiBody,
   ApiQuery,
   ApiParam,
-  ApiResponse,
+  ApiOkResponse,
   ApiSecurity,
+  getSchemaPath,
 } from '@nestjs/swagger';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -31,7 +32,7 @@ export class UserController {
   @ApiQuery({ name: 'page', type: Number, required: false })
   @ApiQuery({ name: 'size', type: Number, required: false })
   @ApiQuery({ name: 'name', type: String, required: false })
-  @ApiResponse({
+  @ApiOkResponse({
     status: 200,
     type: [UserEntity],
     description: 'user list',
@@ -59,9 +60,16 @@ export class UserController {
 
   @Get('/:id')
   @ApiParam({ name: 'id', type: Number, required: true })
-  @ApiResponse({
+  @ApiOkResponse({
     status: 200,
-    type: UserEntity,
+    schema: {
+      oneOf: [
+        {
+          type: 'null',
+        },
+        { $ref: getSchemaPath(UserEntity) },
+      ],
+    },
     description: 'user detail',
   })
   async fetchUser(@Param('id', ParseIntPipe) id: number) {
@@ -70,6 +78,7 @@ export class UserController {
         id,
       },
     });
+    if (!user) return null;
     return {
       id: Number(user.id),
       name: user.name,
@@ -79,9 +88,10 @@ export class UserController {
 
   @Post()
   @ApiBody({ type: CreateUserDto })
-  @ApiResponse({
+  @ApiOkResponse({
     status: 201,
     type: UserEntity,
+
     description: 'user created',
   })
   @HttpCode(201)
@@ -99,7 +109,7 @@ export class UserController {
   @Put('/:id')
   @ApiParam({ name: 'id', type: Number, required: true })
   @ApiBody({ type: UpdateUserDto })
-  @ApiResponse({
+  @ApiOkResponse({
     status: 204,
     schema: {
       type: 'object',
@@ -130,7 +140,7 @@ export class UserController {
 
   @Delete('/:id')
   @ApiParam({ name: 'id', type: Number, required: true })
-  @ApiResponse({
+  @ApiOkResponse({
     status: 204,
     schema: {
       type: 'object',

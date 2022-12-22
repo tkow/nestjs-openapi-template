@@ -113,7 +113,7 @@ export class UserController {
   })
   @HttpCode(204)
   async updateUser(
-    @Param('id') id: number,
+    @Param('id', ParseIntPipe) id: number,
     @Body() userDto: UpdateUserDto,
   ): Promise<{ ok: true }> {
     // NOTE: numberは本来BigIntにparseできるようにstringで持たせる必要がある
@@ -143,7 +143,7 @@ export class UserController {
     description: 'user deleted',
   })
   @HttpCode(204)
-  async deleteUser(@Param('id') id: number) {
+  async deleteUser(@Param('id', ParseIntPipe) id: number) {
     await this.userService.delete({
       where: {
         id,
